@@ -1,0 +1,32 @@
+/* Stile per i riquadri colorati */
+.card {
+    background-color: #f8f9fa; /* Colore di sfondo del riquadro */
+    border: 1px solid #2E8B57; /* Bordo del riquadro */
+    border-radius: 0.25rem; /* Angoli arrotondati */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Ombra del riquadro */
+    transition: background-color 0.3s ease; /* Transizione per l'effetto hover */
+}
+
+/* Colore di sfondo per il riquadro selezionato */
+.card.selected {
+    background-color: #2E8B57; /* Colore di sfondo quando selezionato */
+    color: #7bb372; /* Colore del testo quando selezionato */
+}
+
+/* Personalizzazione della checklist */
+.checklist-item {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.checklist-item input {
+    margin-right: 10px;
+}
+
+/* Stile per i testi all'interno dei riquadri */
+.card .card-body .checklist-item {
+    font-size: 18px; /* Dimensione del testo */
+    font-weight: bold; /* Grassetto */
+    color: #7bb372; /* Colore del testo */
+}
