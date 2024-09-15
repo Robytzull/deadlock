@@ -93,6 +93,7 @@ def handle_login(n_clicks, username, password):
                 session['infermiere_id']=user.infermiere.id
             elif user.segreteria:
                 role = 'segreteria'
+                session['segretario_id']=user.segreteria.id
             else:
                 role = 'ruolo sconosciuto'
 
@@ -102,10 +103,12 @@ def handle_login(n_clicks, username, password):
             session['role'] = role
 
             if role == 'medico':
-                return f"Login effettuato come {role}.", '/accesso-medico'
+                return f"Login effe ttuato come {role}.", '/accesso-medico'
             # You can add more redirects for infermiere, segreteria, etc.
             elif role == 'infermiere':
                 return f"Login effettuato come {role}.", '/accesso-infermiere'
+            elif role == 'segreteria':
+                return f"Login effettuato come {role}.", '/accesso-segreteria'
             else:
                 return f"Login effettuato come {role}.", '/home'
         else:

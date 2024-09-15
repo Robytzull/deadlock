@@ -14,6 +14,11 @@ from visite import layout_visite
 from ponteflask import app, server
 from assenze import layout_assenze
 from accesso_infermiere import layout as infermiere_layout
+from accesso_secretario import layout as segretario_layout
+from accesso_gestione_pazienti import layout as gestione_pazienti_layout
+from add_adolescenti import layout as add_adolescenti_layout
+from add_minori import layout as add_minori_layout
+from add_adulti import layout as add_adulti_layout
 from visiteinf import layout_visite_infermiere
 from calendario_inf import layout_calendario
 #from sedi import layout as sedi_layout
@@ -50,16 +55,47 @@ def display_page(pathname):
         return area_medicazioni_layout
     elif pathname == '/area-prelievi':
         return area_prelievi_layout
+    elif pathname == '/accesso-gestione-pazienti':
+        return gestione_pazienti_layout
+    elif pathname == '/add-minori':
+        return add_minori_layout
+    elif pathname == '/add-adolescenti':
+        return add_adolescenti_layout
+    elif pathname == '/add-adulti':
+        return add_adulti_layout
     elif pathname == '/LOG-IN':
         return login_layout
     elif pathname == '/medico/visite':
         # Recupera l'ID del medico dalla sessione dopo il login
         medico_id = session.get('medico_id')
-        
+
         if medico_id:
-            return layout_visite()  # Mostra la pagina delle visite del medico
+            # Se l'ID del medico esiste nella sessione, mostra la pagina delle visite
+            return layout_visite()
         else:
-            return login_layout  # Reindirizza alla pagina di login se non c'è un ID medico
+            # Se non esiste l'ID del medico, reindirizza alla pagina di login
+            return login_layout
+    elif pathname == '/calendario-medico':  # Nuovo routing per il Calendario Assenze
+        # Recupera l'ID del medico dalla sessione dopo il login
+        medico_id = session.get('medico_id')
+
+        if medico_id:
+            # Se l'ID del medico esiste nella sessione, mostra la pagina del calendario delle assenze
+            return layout_assenze()  # Funzione che definisce il layout delle assenze
+        else:
+            # Se non esiste l'ID del medico, reindirizza alla pagina di login
+            return login_layout
+    elif pathname == '/accesso-segreteria':  # Nuovo routing per il Calendario Assenze
+        # Recupera l'ID del medico dalla sessione dopo il login
+        segretario_id = session.get('segretario_id')
+
+        if segretario_id:
+            # Se l'ID del medico esiste nella sessione, mostra la pagina del calendario delle assenze
+            return segretario_layout  # Funzione che definisce il layout delle assenze
+        else:
+            # Se non esiste l'ID del medico, reindirizza alla pagina di login
+            return login_layout
+        
     elif pathname == '/calendario-medico':  # Calendario assenze per il medico
         medico_id = session.get('medico_id')
         if medico_id:
