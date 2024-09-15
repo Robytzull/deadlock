@@ -7,7 +7,7 @@ from models import (
     EsitoVisitaMedica, EsitoVisitaInfermieristica, 
     TurniMedico, TurniInfermiere, CredenzialiPersonale, 
     CredenzialiPazienteAdulto, CredenzialiAdolescente, Sala, Ambulatorio,
-    Assenze
+    Assenze,Visitainf
 )
 #from models import *
 @db_session
@@ -86,6 +86,13 @@ def popolamento_database():
                    medico=medici[1], prenotazione=prenotazioni[1])
         ]
 
+        visitainf = [
+            Visitainf(id='visi_01', data=date(2024, 3, 17), paziente_adulto=pazienti_adulti[0], 
+                   infermiere=infermieri[0], prenotazione=prenotazioni[0], tipologia ='prelievi' ),
+            Visitainf(id='visi_02', data=date(2024, 3, 18), paziente_minore=pazienti_minori[0], 
+                   infermiere=infermieri[1], prenotazione=prenotazioni[1], tipologia ='medicazione' )
+        ]
+
         
 
         # Popolamento EsitoVisitaMedica
@@ -98,10 +105,10 @@ def popolamento_database():
 
         # Popolamento EsitoVisitaInfermieristica
         esiti_infermieristici = [
-            EsitoVisitaInfermieristica(id='esi_01', visita=visite[0], infermiere=infermieri[0], 
-                                       descrizione='Parametri vitali nella norma', data=date(2024, 3, 15)),
-            EsitoVisitaInfermieristica(id='esi_02', visita=visite[1], infermiere=infermieri[1], 
-                                       descrizione='Vaccinazione effettuata', data=date(2024, 3, 16))
+            EsitoVisitaInfermieristica(id='esi_01', visitainf=visitainf[0], infermiere=infermieri[0], 
+                                       descrizione='Parametri vitali nella norma', referto='mfewq', data=date(2024, 3, 15)),
+            EsitoVisitaInfermieristica(id='esi_02', visitainf=visitainf[1], infermiere=infermieri[1], 
+                                       descrizione='Vaccinazione effettuata', referto='ufoyegwq', data=date(2024, 3, 16))
         ]
 
         # Popolamento Assenze

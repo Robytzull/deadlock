@@ -5,13 +5,13 @@ db = Database()
 
 # Classe Sostituzione
 class Sostituzione(db.Entity):
-    _table_ = 'sostituzioni'
+    table = 'sostituzioni'
     medico_sostituto = Required('Medico', reverse='sostituzioni_sostituto')
     medico_sostituito = Required('Medico', reverse='sostituzioni_sostituito')
 
 # Classe Medico
 class Medico(db.Entity):
-    _table_ = 'medici'
+    table = 'medici'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -38,7 +38,7 @@ class Medico(db.Entity):
 
 # Classe Infermiere
 class Infermiere(db.Entity):
-    _table_ = 'infermieri'
+    table = 'infermieri'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -60,7 +60,7 @@ class Infermiere(db.Entity):
 
 # Classe Segreteria
 class Segreteria(db.Entity):
-    _table_ = 'segretari'
+    table = 'segretari'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -72,7 +72,7 @@ class Segreteria(db.Entity):
 
 # Classe PazienteAdulto
 class PazienteAdulto(db.Entity):
-    _table_ = 'pazienti_adulti'
+    table = 'pazienti_adulti'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -96,7 +96,7 @@ class PazienteAdulto(db.Entity):
 
 # Classe PazienteMinore
 class PazienteMinore(db.Entity):
-    _table_ = 'pazienti_minori'
+    table = 'pazienti_minori'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -116,7 +116,7 @@ class PazienteMinore(db.Entity):
 
 # Classe PazienteAdolescente
 class PazienteAdolescente(db.Entity):
-    _table_ = 'pazienti_adolescenti'
+    table = 'pazienti_adolescenti'
     id = PrimaryKey(str)
     CF = Required(str, unique=True)
     nome = Required(str)
@@ -137,7 +137,7 @@ class PazienteAdolescente(db.Entity):
 
 # Classe Assenze (per Medico)
 class Assenze(db.Entity):
-    _table_ = 'assenze'
+    table = 'assenze'
     id = PrimaryKey(int, auto=True)
     data = Required(date)
     medico = Required(Medico, reverse='ferie')
@@ -145,7 +145,7 @@ class Assenze(db.Entity):
 
 # Classe Prenotazione
 class Prenotazione(db.Entity):
-    _table_ = 'prenotazioni'
+    table = 'prenotazioni'
     id = PrimaryKey(str)
     paziente_adulto = Optional(PazienteAdulto, reverse='prenotazioni')
     paziente_minore = Optional(PazienteMinore, reverse='prenotazioni')
@@ -162,7 +162,7 @@ class Prenotazione(db.Entity):
 
 # Classe Visita
 class Visita(db.Entity):
-    _table_ = 'visite'
+    table = 'visite'
     id = PrimaryKey(str)
     paziente_adulto = Optional(PazienteAdulto, reverse='visite')
     paziente_minore = Optional(PazienteMinore, reverse='visite')
@@ -173,10 +173,10 @@ class Visita(db.Entity):
     prenotazione = Optional(Prenotazione, reverse='visite')
     report_visita = Set('ReportVisite', reverse='visita')
     esito_medico = Set('EsitoVisitaMedica', reverse='visita')
-    esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visita')
+    #esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visita')
 
 class Visitainf(db.Entity):
-    _table_ = 'visitainf'
+    table = 'visitainf'
     id = PrimaryKey(str)
     paziente_adulto = Optional(PazienteAdulto, reverse='visitainf')
     paziente_minore = Optional(PazienteMinore, reverse='visitainf')
@@ -191,7 +191,7 @@ class Visitainf(db.Entity):
 
 # Classe CredenzialiPersonale
 class CredenzialiPersonale(db.Entity):
-    _table_ = 'credenziali_personale'
+    table = 'credenziali_personale'
     username = PrimaryKey(str)
     password = Required(str)
     medico = Optional(Medico, reverse='credenziali')
@@ -200,21 +200,21 @@ class CredenzialiPersonale(db.Entity):
 
 # Classe CredenzialiPazienteAdulto
 class CredenzialiPazienteAdulto(db.Entity):
-    _table_ = 'credenziali_pazienti_adulti'
+    table = 'credenziali_pazienti_adulti'
     CF = PrimaryKey(str)
     password = Required(str)
     paziente = Required(PazienteAdulto, reverse='credenziali')
 
 # Classe CredenzialiAdolescente
 class CredenzialiAdolescente(db.Entity):
-    _table_ = 'credenziali_adolescenti'
+    table = 'credenziali_adolescenti'
     CF = PrimaryKey(str)
     password = Required(str)
     paziente = Required(PazienteAdolescente, reverse='credenziali_adolescente')
 
 # Classe TurniMedico
 class TurniMedico(db.Entity):
-    _table_ = 'turni_medici'
+    table = 'turni_medici'
     id = PrimaryKey(str)
     medico = Required(Medico, reverse='turni')
     data_inizio = Required(date)
@@ -224,7 +224,7 @@ class TurniMedico(db.Entity):
 
 # Classe TurniInfermiere
 class TurniInfermiere(db.Entity):
-    _table_ = 'turni_infermieri'
+    table = 'turni_infermieri'
     id = PrimaryKey(str)
     infermiere = Required(Infermiere, reverse='turni')
     data_inizio = Required(date)
@@ -234,7 +234,7 @@ class TurniInfermiere(db.Entity):
 
 # Classe EsitoVisitaMedica
 class EsitoVisitaMedica(db.Entity):
-    _table_ = 'esiti_visita_medica'
+    table = 'esiti_visita_medica'
     id = PrimaryKey(str)
     visita = Required(Visita, reverse='esito_medico')
     medico = Required(Medico, reverse='esiti_medici')
@@ -244,17 +244,18 @@ class EsitoVisitaMedica(db.Entity):
 
 # Classe EsitoVisitaInfermieristica
 class EsitoVisitaInfermieristica(db.Entity):
-    _table_ = 'esiti_visita_infermieristica'
+    table = 'esiti_visita_infermieristica'
     id = PrimaryKey(str)
-    visita = Required(Visita, reverse='esito_infermieristico')
-    visitainf = Optional(Visitainf, reverse='esiti_visita_infermieristica')
+    #visita = Optional(Visita, reverse='esito_infermieristico')
+    visitainf = Required(Visitainf, reverse='esito_infermieristico')
     infermiere = Required(Infermiere, reverse='esiti_infermieristici')
     descrizione = Optional(str)
+    referto = Optional(str)
     data = Required(date)
 
 # Classe Sala
 class Sala(db.Entity):
-    _table_ = 'sale'
+    table = 'sale'
     id = PrimaryKey(str)
     numero = Required(str)
     tipoSala = Required(str)
@@ -263,14 +264,14 @@ class Sala(db.Entity):
 
 # Classe Ambulatorio
 class Ambulatorio(db.Entity):
-    _table_ = 'ambulatori'
+    table = 'ambulatori'
     id = PrimaryKey(str)
     nome = Required(str)
     prenotazioni = Set(Prenotazione, reverse='ambulatorio')
 
 # Classe ServizioSanitario
 class ServizioSanitario(db.Entity):
-    _table_ = 'servizi_sanitari'
+    table = 'servizi_sanitari'
     id = PrimaryKey(str)
     nome = Required(str)
     pazienti_adulti = Set(PazienteAdulto, reverse='servizioSanitario')
@@ -282,7 +283,7 @@ class ServizioSanitario(db.Entity):
 
 # Classe ReportServizioSanitario
 class ReportServizioSanitario(db.Entity):
-    _table_ = 'report_servizi_sanitari'
+    table = 'report_servizi_sanitari'
     id = PrimaryKey(str)
     servizioSanitario = Required(ServizioSanitario, reverse='report_servizi_sanitari')
     paziente_adulto = Optional(PazienteAdulto, reverse='report_servizioSanitario')
@@ -293,7 +294,7 @@ class ReportServizioSanitario(db.Entity):
 
 # Classe ReportVisite
 class ReportVisite(db.Entity):
-    _table_ = 'report_visite'
+    table = 'report_visite'
     id = PrimaryKey(str)
     medico = Optional(Medico, reverse='report_visite')
     infermiere = Optional(Infermiere, reverse='report_visite')
@@ -311,7 +312,3 @@ class ReportVisite(db.Entity):
 def init_db():
     db.bind(provider='sqlite', filename='database.db', create_db=True)
     db.generate_mapping(create_tables=True)
-
-
-
-

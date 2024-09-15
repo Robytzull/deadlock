@@ -30,7 +30,7 @@ layout = html.Div([
                                 html.H4("Visite", className="card-title", style={'textAlign': 'center'})
                             )
                         ], style={'backgroundColor': '#7bb372', 'color': 'white'}),  # Colore verde e testo bianco
-                        href='/visite-infermiere',  # Link alla pagina delle visite
+                        href='/infermiere/visite',  # Link alla pagina delle visite
                         style={
                             'textDecoration': 'none', 
                             'display': 'block', 

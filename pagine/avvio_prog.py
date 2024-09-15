@@ -14,7 +14,8 @@ from visite import layout_visite
 from ponteflask import app, server
 from assenze import layout_assenze
 from accesso_infermiere import layout as infermiere_layout
-
+from visiteinf import layout_visite_infermiere
+from calendario_inf import layout_calendario
 #from sedi import layout as sedi_layout
 #from prestazioni import layout as prestazioni_layout
 #from presentazione import layout as presentazione_layout
@@ -54,25 +55,34 @@ def display_page(pathname):
     elif pathname == '/medico/visite':
         # Recupera l'ID del medico dalla sessione dopo il login
         medico_id = session.get('medico_id')
-
+        
         if medico_id:
-            # Se l'ID del medico esiste nella sessione, mostra la pagina delle visite
-            return layout_visite()
+            return layout_visite()  # Mostra la pagina delle visite del medico
         else:
-            # Se non esiste l'ID del medico, reindirizza alla pagina di login
-            return login_layout
-    elif pathname == '/calendario-medico':  # Nuovo routing per il Calendario Assenze
-        # Recupera l'ID del medico dalla sessione dopo il login
+            return login_layout  # Reindirizza alla pagina di login se non c'è un ID medico
+    elif pathname == '/calendario-medico':  # Calendario assenze per il medico
         medico_id = session.get('medico_id')
-
         if medico_id:
-            # Se l'ID del medico esiste nella sessione, mostra la pagina del calendario delle assenze
-            return layout_assenze()  # Funzione che definisce il layout delle assenze
+            return layout_assenze()  # Mostra il calendario delle assenze del medico
         else:
-            # Se non esiste l'ID del medico, reindirizza alla pagina di login
             return login_layout
+    elif pathname == '/infermiere/visite':  # Nuovo routing per visite infermieristiche
+        infermiere_id = session.get('infermiere_id')
+        if infermiere_id:
+            return layout_visite_infermiere()  # Mostra la pagina delle visite infermieristiche
+        else:
+            return login_layout
+    elif pathname == '/calendario-infermiere':
+        infermiere_id=session.get('infermiere_id') 
+        if infermiere_id:
+            return layout_calendario()
+        else:
+            return login_layout   
     else:
         return home_layout  # Mostra la home come pagina predefinita
+
+    
+    
 if __name__ == '__main__':
    
     app.run_server(debug=True)
