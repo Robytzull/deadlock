@@ -54,6 +54,7 @@ class Infermiere(db.Entity):
     pazienti_adolescenti = Set('PazienteAdolescente', reverse='infermiere')
     prenotazioni_infermiere = Set('Prenotazione', reverse='infermiere')
     visite = Set('Visita', reverse='infermiere')
+    visitainf = Set('Visitainf', reverse='infermiere')
     esiti_infermieristici = Set('EsitoVisitaInfermieristica', reverse='infermiere')
     report_visite = Set('ReportVisite', reverse='infermiere')
 
@@ -88,6 +89,7 @@ class PazienteAdulto(db.Entity):
     infermiere = Optional(Infermiere, reverse='pazienti_adulti')
     prenotazioni = Set('Prenotazione', reverse='paziente_adulto')
     visite = Set('Visita', reverse='paziente_adulto')
+    visitainf = Set('Visitainf', reverse='paziente_adulto')
     servizioSanitario = Set('ServizioSanitario', reverse='pazienti_adulti')
     report_servizioSanitario = Set('ReportServizioSanitario', reverse='paziente_adulto')
     report_visite = Set('ReportVisite', reverse='paziente_adulto')
@@ -107,6 +109,7 @@ class PazienteMinore(db.Entity):
     infermiere = Optional(Infermiere, reverse='pazienti_minori')
     prenotazioni = Set('Prenotazione', reverse='paziente_minore')
     visite = Set('Visita', reverse='paziente_minore')
+    visitainf = Set('Visitainf', reverse='paziente_minore')
     servizioSanitario = Set('ServizioSanitario', reverse='pazienti_minori')
     report_servizioSanitario = Set('ReportServizioSanitario', reverse='paziente_minore')
     report_visite = Set('ReportVisite', reverse='paziente_minore')
@@ -127,6 +130,7 @@ class PazienteAdolescente(db.Entity):
     infermiere = Optional(Infermiere, reverse='pazienti_adolescenti')
     prenotazioni = Set('Prenotazione', reverse='paziente_adolescente')
     visite = Set('Visita', reverse='paziente_adolescente')
+    visitainf = Set('Visitainf', reverse='paziente_adolescente')
     servizioSanitario = Set('ServizioSanitario', reverse='pazienti_adolescenti')
     report_servizioSanitario = Set('ReportServizioSanitario', reverse='paziente_adolescente')
     report_visite = Set('ReportVisite', reverse='paziente_adolescente')
@@ -137,6 +141,7 @@ class Assenze(db.Entity):
     id = PrimaryKey(int, auto=True)
     data = Required(date)
     medico = Required(Medico, reverse='ferie')
+    motivo = Optional(str)
 
 # Classe Prenotazione
 class Prenotazione(db.Entity):
@@ -151,6 +156,7 @@ class Prenotazione(db.Entity):
     ambulatorio = Optional('Ambulatorio', reverse='prenotazioni')
     data = Required(date)
     visite = Set('Visita', reverse='prenotazione')
+    visitainf = Set('Visitainf', reverse='prenotazione')
     report_visita = Set('ReportVisite', reverse='prenotazione')
     servizioSanitario = Optional('ServizioSanitario', reverse='prenotazioni')
 
@@ -168,6 +174,20 @@ class Visita(db.Entity):
     report_visita = Set('ReportVisite', reverse='visita')
     esito_medico = Set('EsitoVisitaMedica', reverse='visita')
     esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visita')
+
+class Visitainf(db.Entity):
+    _table_ = 'visitainf'
+    id = PrimaryKey(str)
+    paziente_adulto = Optional(PazienteAdulto, reverse='visitainf')
+    paziente_minore = Optional(PazienteMinore, reverse='visitainf')
+    paziente_adolescente = Optional(PazienteAdolescente, reverse='visitainf')
+    infermiere = Optional(Infermiere, reverse='visitainf')
+    data = Required(date)
+    prenotazione = Optional(Prenotazione, reverse='visitainf')
+    #report_visita = Set('ReportVisite', reverse='visitainf')
+    tipologia = Required(str)
+    descrizione = Optional(str)
+    esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visitainf')    
 
 # Classe CredenzialiPersonale
 class CredenzialiPersonale(db.Entity):
@@ -219,6 +239,7 @@ class EsitoVisitaMedica(db.Entity):
     visita = Required(Visita, reverse='esito_medico')
     medico = Required(Medico, reverse='esiti_medici')
     descrizione = Required(str)
+    referto = Optional(str)
     data = Required(date)
 
 # Classe EsitoVisitaInfermieristica
@@ -226,8 +247,9 @@ class EsitoVisitaInfermieristica(db.Entity):
     _table_ = 'esiti_visita_infermieristica'
     id = PrimaryKey(str)
     visita = Required(Visita, reverse='esito_infermieristico')
+    visitainf = Optional(Visitainf, reverse='esiti_visita_infermieristica')
     infermiere = Required(Infermiere, reverse='esiti_infermieristici')
-    descrizione = Required(str)
+    descrizione = Optional(str)
     data = Required(date)
 
 # Classe Sala
@@ -281,6 +303,7 @@ class ReportVisite(db.Entity):
     descrizione = Required(str)
     data = Required(date)
     visita = Required(Visita, reverse='report_visita')
+    #visitainf = Set(Visitainf, reverse='report_visite')
     prenotazione = Required(Prenotazione, reverse='report_visita')
     servizioSanitario = Optional(ServizioSanitario, reverse='report_visite')
 

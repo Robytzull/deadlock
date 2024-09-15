@@ -1,8 +1,11 @@
 from dash import html, dcc, Input, Output, callback, State
 import dash_bootstrap_components as dbc
-from flask import session
+from flask import session, has_app_context, has_request_context
 from pony.orm import db_session, select
-from entities.riempimento import CredenzialiPersonale
+from entities import models
+from entities.models import init_db
+from ponteflask import app, server
+#from entities.riempimento import CredenzialiPersonale
 
 #from pagine.ponteflask import app  # Importa l'istanza dell'app Flask-Dash
 
@@ -38,7 +41,7 @@ layout = html.Div([
         html.Div(id="login-output", style={"marginTop": "20px", "textAlign": "center", "color": "red"})
     ], className="mt-4")
 ])
-
+init_db()
 # Funzione per verificare le credenziali nel database
 '''@db_session
 def verify_credentials(username, password):
@@ -57,34 +60,58 @@ def verify_credentials(username, password):
 
 # Callback per il login
 @callback(
-    Output('login-output', 'children'),
-    Input('login-button', 'n_clicks'),
-    State('login-username', 'value'),
-    State('login-password', 'value')
+    [Output('login-output', 'children'), Output('url', 'pathname')],
+    [Input('login-button', 'n_clicks')],
+    [State('login-username', 'value'), State('login-password', 'value')]
+    
 )
+
 def handle_login(n_clicks, username, password):
+    print(f"Has app context: {has_app_context()}")
+    print(f"Has request context: {has_request_context()}")
+    
+    if not has_request_context():
+        return "Session not available. No request context.", ''
+    
     if n_clicks is None:
-        return ''
+        return '', '/LOG-IN'
     with db_session:
         # Stampa i valori di username e password per verificarli nel terminale
         #print(f"Username inserito: {username}, Password inserita: {password}")
 
         # Cerca l'utente nel database
         #from entities.riempimento import CredenzialiPersonale
-
-        user = CredenzialiPersonale.get(username=username)
-        if user:
-            print(f"Utente trovato: {user.username}, Ruolo: {user.ruolo}")
-        else:
-            print("Utente non trovato")
-
-        # Verifica credenziali nel database
+        #from entities.riempimento import CredenzialiPersonale
+        user = models.CredenzialiPersonale.get(username=username)
         if user and user.password == password:
-            print("Login riuscito")
-            #return f"Login effettuato come {user.ruolo}."
+            # Infer the role from the relationship
+            if user.medico:
+                role = 'medico'
+                session['medico_id']=user.medico.id
+            elif user.infermiere:
+                role = 'infermiere'
+                session['infermiere_id']=user.infermiere.id
+            elif user.segreteria:
+                role = 'segreteria'
+            else:
+                role = 'ruolo sconosciuto'
+
+            # Set user session and redirect to the appropriate page
+            session['logged_in'] = True
+            session['username'] = username
+            session['role'] = role
+
+            if role == 'medico':
+                return f"Login effettuato come {role}.", '/accesso-medico'
+            # You can add more redirects for infermiere, segreteria, etc.
+            elif role == 'infermiere':
+                return f"Login effettuato come {role}.", '/accesso-infermiere'
+            else:
+                return f"Login effettuato come {role}.", '/home'
         else:
-            print("Credenziali errate")
-            #return 'Nome utente o password errati.'
+            return 'Nome utente o password errati.', '/login'
+        
+            
     
     ''' # Verifica delle credenziali
     role = verify_credentials(username, password)

@@ -9,6 +9,7 @@ from models import (
     CredenzialiPazienteAdulto, CredenzialiAdolescente, Sala, Ambulatorio,
     Assenze
 )
+#from models import *
 @db_session
 def popolamento_database():
     
@@ -85,12 +86,14 @@ def popolamento_database():
                    medico=medici[1], prenotazione=prenotazioni[1])
         ]
 
+        
+
         # Popolamento EsitoVisitaMedica
         esiti_medici = [
             EsitoVisitaMedica(id='esm_01', visita=visite[0], medico=medici[0], 
-                              descrizione='Visita di routine completata', data=date(2024, 3, 15)),
+                              descrizione='Visita di routine completata', referto='paziente in salute', data=date(2024, 3, 15)),
             EsitoVisitaMedica(id='esm_02', visita=visite[1], medico=medici[1], 
-                              descrizione='Controllo pediatrico completato', data=date(2024, 3, 16))
+                              descrizione='Controllo pediatrico completato', referto='è consigliato un check ulteriore',data=date(2024, 3, 16))
         ]
 
         # Popolamento EsitoVisitaInfermieristica
@@ -103,8 +106,8 @@ def popolamento_database():
 
         # Popolamento Assenze
         assenze = [
-            Assenze(medico=medici[0], data=date(2024, 4, 1)),
-            Assenze(medico=medici[1], data=date(2024, 4, 2))
+            Assenze(medico=medici[0], data=date(2024, 4, 1), motivo='Congedo'),
+            Assenze(medico=medici[1], data=date(2024, 4, 2), motivo='Malattia')
         ]
 
         # Popolamento TurniMedico
