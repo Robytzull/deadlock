@@ -21,6 +21,18 @@ from add_minori import layout as add_minori_layout
 from add_adulti import layout as add_adulti_layout
 from visiteinf import layout_visite_infermiere
 from calendario_inf import layout_calendario
+from add_adolescenti_info import layout_add_adolescenti_info
+from add_adolescenti_creds import layout_add_adolescenti_creds
+from add_adulti_info import layout_add_adulti_info
+from add_adulti_creds import layout_add_adulti_creds
+from accesso_gestione_infirmiere import layout as gestione_infermiere_layout
+from add_infermiere_info import layout_add_infermiere_info
+from add_infermiere_creds import layout_add_infermiere_creds
+from add_turni_infermiere import layout_add_turni_infermiere
+from add_medico_info import layout_add_medico_info
+from accesso_gestione_medici import layout as gestione_medici_layout
+from add_medico_creds import layout_add_medico_creds
+from add_medico_assenze import layout_gestione_assenze_medico
 #from sedi import layout as sedi_layout
 #from prestazioni import layout as prestazioni_layout
 #from presentazione import layout as presentazione_layout
@@ -57,12 +69,36 @@ def display_page(pathname):
         return area_prelievi_layout
     elif pathname == '/accesso-gestione-pazienti':
         return gestione_pazienti_layout
+    elif pathname =='/accesso-gestione-infermiere':
+        return gestione_infermiere_layout
+    elif pathname =='/accesso-gestione-medici':
+        return gestione_medici_layout
+    elif pathname =='/add-infermiere-info':
+        return layout_add_infermiere_info()
+    elif pathname == '/add-infermiere-creds':
+        return layout_add_infermiere_creds()  # Mostra la pagina per aggiungere le credenziali
+    elif pathname == '/add-turni-infermiere':
+        return layout_add_turni_infermiere()  # Mostra la pagina per aggiungere i turni dell'infermiere
+    elif pathname == '/add-medico-info':
+        return layout_add_medico_info()
+    elif pathname == '/add-medico-creds':
+        return layout_add_medico_creds()
+    elif pathname == '/gestione-assenze-medico':
+        return layout_gestione_assenze_medico()
     elif pathname == '/add-minori':
         return add_minori_layout
     elif pathname == '/add-adolescenti':
         return add_adolescenti_layout
+    elif pathname == '/add-adolescenti-info':
+        return layout_add_adolescenti_info()  # Mostra la pagina per aggiungere informazioni su pazienti adolescenti
+    elif pathname == '/add-adolescenti-creds':
+        return layout_add_adolescenti_creds()  # Mostra la pagina per creare credenziali per adolescenti
     elif pathname == '/add-adulti':
         return add_adulti_layout
+    elif pathname == '/add-adulti-info':
+        return layout_add_adulti_info() # Mostra la pagina per aggiungere informazioni del paziente adulto
+    elif pathname == '/add-adulti-creds':
+        return layout_add_adulti_creds()  # Mostra la pagina per creare credenziali paziente adulto
     elif pathname == '/LOG-IN':
         return login_layout
     elif pathname == '/medico/visite':

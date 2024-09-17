@@ -68,7 +68,7 @@ layout = html.Div([
                                 html.H4("Gestione Medici", className="card-title", style={'textAlign': 'center'})
                             )
                         ], style={'backgroundColor': '#7bb372', 'color': 'white'}),  # Colore verde e testo bianco
-                        href='/gestione-medici',  # Link alla pagina di gestione medici
+                        href='/accesso-gestione-medici',  # Link alla pagina di gestione medici
                         style={
                             'textDecoration': 'none', 
                             'display': 'block', 
@@ -87,7 +87,7 @@ layout = html.Div([
                                 html.H4("Gestione Infermieri", className="card-title", style={'textAlign': 'center'})
                             )
                         ], style={'backgroundColor': '#7bb372', 'color': 'white'}),  # Colore verde e testo bianco
-                        href='/gestione-infermieri',  # Link alla pagina di gestione infermieri
+                        href='/accesso-gestione-infermiere',  # Link alla pagina di gestione infermieri
                         style={
                             'textDecoration': 'none', 
                             'display': 'block', 

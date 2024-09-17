@@ -20,7 +20,7 @@ def layout_calendario():
         for turno in turni:
             turni_card = dbc.Card([
                 dbc.CardBody([
-                    html.H5(f"Assenza del {turno.data_inizio}", className="card-title"),
+                    html.H5(f"Turno del giorno: {turno.data_inizio}", className="card-title"),
                     html.P(f"Orario di inizio: {turno.orario_inizio}", className="card-text"),
                     html.P(f"Orario di fine: {turno.orario_fine}", className="card-text")
                     #html.P(f"Motivo: {turno.motivo}", className="card-text")  # Se hai un campo motivo o descrizione
@@ -29,6 +29,6 @@ def layout_calendario():
             turni_cards.append(turni_card)
 
     return html.Div([
-        html.H2("Calendario delle Assenze", style={'textAlign': 'center', 'marginTop': '20px'}),
+        html.H2("Calendario dei Turni", style={'textAlign': 'center', 'marginTop': '20px'}),
         *turni_cards
     ])
