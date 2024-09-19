@@ -33,6 +33,12 @@ from add_medico_info import layout_add_medico_info
 from accesso_gestione_medici import layout as gestione_medici_layout
 from add_medico_creds import layout_add_medico_creds
 from add_medico_assenze import layout_gestione_assenze_medico
+from accesso_gestione_visite import layout_gestione_visite
+from gestione_visite_medico_segretario import layout_gestione_visite_medico_segretario
+from gestione_visite_inf_segretario import layout_gestione_visite_infermiere_segretario
+from add_minori_info import layout_add_minori_info
+from acesso_paziente import layout as layout_paziente
+from paziente_prenotazione_visita import layout_prenotazione_visite
 #from sedi import layout as sedi_layout
 #from prestazioni import layout as prestazioni_layout
 #from presentazione import layout as presentazione_layout
@@ -85,10 +91,18 @@ def display_page(pathname):
         return layout_add_medico_creds()
     elif pathname == '/gestione-assenze-medico':
         return layout_gestione_assenze_medico()
+    elif pathname == '/gestione-visite':
+        return layout_gestione_visite  # Mostra la pagina con i due bottoni per gestire visite medico/infermiere
+    elif pathname == '/gestione-visite-medico':
+        return layout_gestione_visite_medico_segretario()  # Mostra la pagina per gestire le visite del medico
+    elif pathname == '/gestione-visite-infermiere':
+        return layout_gestione_visite_infermiere_segretario()
     elif pathname == '/add-minori':
         return add_minori_layout
     elif pathname == '/add-adolescenti':
         return add_adolescenti_layout
+    elif pathname == '/add-minori-info':
+        return layout_add_minori_info()
     elif pathname == '/add-adolescenti-info':
         return layout_add_adolescenti_info()  # Mostra la pagina per aggiungere informazioni su pazienti adolescenti
     elif pathname == '/add-adolescenti-creds':
@@ -149,7 +163,29 @@ def display_page(pathname):
         if infermiere_id:
             return layout_calendario()
         else:
-            return login_layout   
+            return login_layout 
+
+    if pathname == '/accesso-paziente':
+        # Verifica se il paziente è loggato
+        paziente_adulto_id = session.get('paziente_id')
+        paziente_adolescente_id = session.get('paziente_adolescente_id')
+
+        if paziente_adulto_id:
+            return layout_paziente  # Mostra la pagina specifica per il paziente adulto
+        elif paziente_adolescente_id:
+            return layout_paziente  # Mostra la pagina specifica per il paziente adolescente
+        else:
+            return html.Div("Errore: Nessun paziente loggato.", style={'color': 'red'})
+        
+    elif pathname == '/prenotazione-visite':
+        paziente_id = session.get('paziente_id') or session.get('paziente_adolescente_id')
+    
+        if paziente_id:
+            return layout_prenotazione_visite()  # Mostra la pagina di prenotazione se il paziente è loggato
+        else:
+            return login_layout  # Reindirizza al login se non c'è un paziente loggato    
+
+
     else:
         return home_layout  # Mostra la home come pagina predefinita
 

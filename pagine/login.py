@@ -82,6 +82,26 @@ def handle_login(n_clicks, username, password):
         # Cerca l'utente nel database
         #from entities.riempimento import CredenzialiPersonale
         #from entities.riempimento import CredenzialiPersonale
+        #cerca il paziente adulto nel db
+        paziente_adulto = models.CredenzialiPazienteAdulto.get(CF=username, password=password)
+        if paziente_adulto:
+            session['logged_in'] = True
+            session['paziente_id'] = paziente_adulto.paziente.id  # Salva l'ID del paziente adulto nella sessione
+            session['role'] = 'paziente_adulto'
+            return f"Login effettuato come paziente adulto.", '/accesso-paziente'
+        
+        #cerca il paziente adolescente nel db
+        paziente_adolescente = models.CredenzialiAdolescente.get(CF=username, password=password)
+        if paziente_adolescente:
+            session['logged_in'] = True
+            session['paziente_adolescente_id'] = paziente_adolescente.paziente.id  # Salva l'ID del paziente adolescente nella sessione
+            session['role'] = 'paziente_adolescente'
+            return f"Login effettuato come paziente adolescente.", '/accesso-paziente'
+
+
+
+
+
         user = models.CredenzialiPersonale.get(username=username)
         if user and user.password == password:
             # Infer the role from the relationship

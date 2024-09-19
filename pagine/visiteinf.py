@@ -75,7 +75,7 @@ def handle_referto_infermiere_inserimento(n_clicks, descrizioni, referti, ids):
                     esito = EsitoVisitaInfermieristica.get(visitainf=visitainf)
                     if not esito:
                         # Se non esiste un esito, creiamone uno
-                        EsitoVisitaInfermieristica(visitainf=visitainf, infermiere=visitainf.infermiere, descrizione=descrizione, referto=referto)
+                        EsitoVisitaInfermieristica(id=visitainf.id, visitainf=visitainf, infermiere=visitainf.infermiere, descrizione=descrizione, referto=referto, data=visitainf.data)
                     else:
                         # Altrimenti aggiorniamo i campi esistenti
                         esito.descrizione = descrizione

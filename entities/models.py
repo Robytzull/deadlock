@@ -173,6 +173,8 @@ class Visita(db.Entity):
     prenotazione = Optional(Prenotazione, reverse='visite')
     report_visita = Set('ReportVisite', reverse='visita')
     esito_medico = Set('EsitoVisitaMedica', reverse='visita')
+    ambulatorio = Optional('Ambulatorio', reverse='visite')
+    orario = Optional(str)  # Aggiungi questo campo per l'orario
     #esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visita')
 
 class Visitainf(db.Entity):
@@ -187,7 +189,9 @@ class Visitainf(db.Entity):
     #report_visita = Set('ReportVisite', reverse='visitainf')
     tipologia = Required(str)
     descrizione = Optional(str)
-    esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visitainf')    
+    esito_infermieristico = Set('EsitoVisitaInfermieristica', reverse='visitainf')
+    sala = Optional('Sala', reverse='visitainf')  # Aggiungiamo la relazione con Sala 
+    orario = Optional(str)  # Aggiungi questo campo per l'orario  
 
 # Classe CredenzialiPersonale
 class CredenzialiPersonale(db.Entity):
@@ -261,6 +265,7 @@ class Sala(db.Entity):
     tipoSala = Required(str)
     infermieri = Set(Infermiere, reverse='sala')
     prenotazioni = Set(Prenotazione, reverse='sala')
+    visitainf = Set('Visitainf', reverse='sala') # Aggiungiamo la relazione con Visitainf
 
 # Classe Ambulatorio
 class Ambulatorio(db.Entity):
@@ -268,6 +273,7 @@ class Ambulatorio(db.Entity):
     id = PrimaryKey(str)
     nome = Required(str)
     prenotazioni = Set(Prenotazione, reverse='ambulatorio')
+    visite = Set('Visita', reverse='ambulatorio')  # Aggiungiamo la relazione con Visita
 
 # Classe ServizioSanitario
 class ServizioSanitario(db.Entity):

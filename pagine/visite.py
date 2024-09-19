@@ -5,6 +5,7 @@ from entities.models import  Visita, EsitoVisitaMedica
 from ponteflask import app
 from flask import session
 
+
 # Funzione per generare il layout delle visite
 def layout_visite():
     # Recupera l'ID del medico dalla sessione
@@ -81,7 +82,7 @@ def handle_referto_inserimento(n_clicks, descrizioni, referti, ids):
                     esito = EsitoVisitaMedica.get(visita=visita)
                     if not esito:
                         # Se non esiste un esito, creiamone uno
-                        EsitoVisitaMedica(visita=visita, medico=visita.medico, descrizione=descrizione, referto=referto)
+                        EsitoVisitaMedica(id=visita.id, visita=visita, medico=visita.medico, descrizione=descrizione, referto=referto, data=visita.data)
                     else:
                         # Altrimenti aggiorniamo i campi esistenti
                         esito.descrizione = descrizione
